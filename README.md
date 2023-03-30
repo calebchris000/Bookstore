@@ -60,7 +60,7 @@
 
 ## 🚀 Live Demo <a name="live-demo"></a>
 
-- [Live Demo Link](https://calebchris000.github.io/Bookstore/build/)
+Coming soon...
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
 
