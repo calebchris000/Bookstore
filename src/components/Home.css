@@ -123,7 +123,7 @@ a[href='/categories'] {
 }
 
 .readTracker > *:first-child {
-  width: 100px;
+  font-size: 5rem;
   margin-right: 0.688rem;
   color: #167ff8;
 }
