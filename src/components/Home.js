@@ -1,7 +1,7 @@
 import './Home.css';
 import { CgProfile } from 'react-icons/cg';
-import { BsCircle } from 'react-icons/bs';
 import PropTypes from 'prop-types';
+import { Circle } from 'react-circle';
 
 const Header = () => (
   <nav className="header">
@@ -14,6 +14,18 @@ const Header = () => (
       <CgProfile />
     </i>
   </nav>
+);
+
+const ProgressBar = ({ percentage }) => (
+  <Circle
+    progress={percentage}
+    strokeWidth={2}
+    size={150}
+    fillColor="transparent"
+    progressColor="#167ff8"
+    showPercentage={false}
+    lineWidth="24px"
+  />
 );
 
 const Book = (props) => {
@@ -36,9 +48,12 @@ const Book = (props) => {
       </div>
 
       <div className="readTracker">
-        <BsCircle />
+        <ProgressBar percentage={percent} />
         <div className="trackerText">
-          <h3 className="percentCompleted">{percent}</h3>
+          <h3 className="percentCompleted">
+            {percent}
+            %
+          </h3>
           <p className="completed">Completed</p>
         </div>
       </div>
@@ -74,13 +89,17 @@ const AddBook = () => (
 const Home = () => (
   <div>
     <Header />
-    <Book genre="Action" bookTitle="The Hunger Games" author="Suzanne Collins" percent="63%" chapter="CHAPTER 17" />
-    <Book genre="Science Fiction" bookTitle="Dune" author="Frank Herbert" percent="8%" chapter='Chapter 3: "A Lesson Learned"' />
-    <Book genre="Economy" bookTitle="Capital in the Twenty-First Century" author="Suzanne Collins" percent="0%" chapter="Introduction" />
+    <Book genre="Action" bookTitle="The Hunger Games" author="Suzanne Collins" percent="63" chapter="CHAPTER 17" />
+    <Book genre="Science Fiction" bookTitle="Dune" author="Frank Herbert" percent="8" chapter='Chapter 3: "A Lesson Learned"' />
+    <Book genre="Economy" bookTitle="Capital in the Twenty-First Century" author="Suzanne Collins" percent="0" chapter="Introduction" />
     <AddBook />
   </div>
 
 );
+
+ProgressBar.propTypes = {
+  percentage: PropTypes.string.isRequired,
+};
 
 Book.propTypes = {
   genre: PropTypes.string.isRequired,
