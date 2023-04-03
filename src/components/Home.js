@@ -4,7 +4,6 @@ import PropTypes from 'prop-types';
 import { CircularProgressbar } from 'react-circular-progressbar';
 import 'react-circular-progressbar/dist/styles.css';
 
-
 const Header = () => (
   <nav className="header">
     <h1 className="title">BookStore CMS</h1>
