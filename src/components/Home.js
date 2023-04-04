@@ -121,7 +121,7 @@ const AddBook = () => {
   const [category, setCategory] = useState('');
 
   const newBook = {
-    item_id: `item${books.length}`,
+    item_id: `item${books.length + 1}`,
     title,
     author,
     category,
