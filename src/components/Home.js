@@ -3,7 +3,7 @@ import { CgProfile } from 'react-icons/cg';
 import PropTypes from 'prop-types';
 import { CircularProgressbar } from 'react-circular-progressbar';
 import 'react-circular-progressbar/dist/styles.css';
-// eslint-disable
+
 const Header = () => (
   <nav className="header">
     <h1 className="title">BookStore CMS</h1>
