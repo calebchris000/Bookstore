@@ -162,6 +162,11 @@ a[href='/categories'] {
   font-family: "Roboto Slab", sans-serif;
   font-size: 0.8rem;
   border-radius: 3px;
+  margin: 5px 0;
+}
+
+#updateButton:last-child {
+  background-color: rgb(255, 72, 0);
 }
 
 .addBook {
@@ -179,7 +184,7 @@ a[href='/categories'] {
 .addBookContainer {
   display: grid;
   gap: 2.125rem;
-  grid-template-columns: repeat(3, 1fr);
+  grid-template-columns: repeat(4, 1fr);
 }
 
 .category {
