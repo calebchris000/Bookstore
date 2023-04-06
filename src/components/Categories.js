@@ -1,5 +1,7 @@
+import { Header } from './Home';
+
 const Categories = () => (
-  <p>Categories</p>
+  <Header />
 );
 
 export default Categories;

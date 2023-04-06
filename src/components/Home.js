@@ -7,13 +7,16 @@ import {
   useDispatch,
   useSelector,
 } from 'react-redux';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import {
-  addBook,
+  /* addBook */
   removeBook,
 } from '../redux/books/bookSlice';
+import fetchData, {
+  sendData,
+} from '../redux/books/bookAPI';
 
-const Header = () => (
+export const Header = () => (
   <nav className="header">
     <h1 className="title">BookStore CMS</h1>
     <div className="navigationLinks">
@@ -46,42 +49,38 @@ const Book = (props) => {
         <p className="author">{author}</p>
 
         <div className="interactions">
-          <a
-            className="bookInteract"
-            href="/home"
-          >
+          <button className="bookInteract" onClick={() => dispatch(toggleCommentPopup())}>
             Comment
-          </a>
-          <a
+          </button>
+         
+          <button
             className="bookInteract"
-            href="/home"
+            onClick={() =>
+              dispatch(removeBook({item_id}))
+            }
           >
             Remove
-          </a>
-          <a
-            className="bookInteract"
-            href="/home"
-          >
+          </button>
+          <button className="bookInteract">
             Edit
-          </a>
+          </button>
         </div>
       </div>
 
       <div className="readTracker">
         <CircularProgressbar
           value={percent}
-          strokeWidth={10}
+          strokeWidth={8}
           styles={{
             trail: {
-              stroke: '#fff',
+              stroke: "#fff",
             },
-            path: { stroke: '#167ff8' },
+            path: {stroke: "#167ff8"},
           }}
         />
         <div className="trackerText">
           <h3 className="percentCompleted">
-            {percent}
-            %
+            {percent}%
           </h3>
           <p className="completed">Completed</p>
         </div>
@@ -91,20 +90,11 @@ const Book = (props) => {
         <p className="currentChapter">
           CURRENT CHAPTER
         </p>
-        <p className="chapterText">{'chapter 1'}</p>
+        <p className="chapterText">
+          {chapter || "chapter 1"}
+        </p>
         <button id="updateButton" type="button">
           UPDATE PROGRESS
-        </button>
-        <button
-          id="updateButton"
-          type="button"
-          onClick={() => dispatch(
-            removeBook({
-              item_id,
-            }),
-          )}
-        >
-          REMOVE BOOK
         </button>
       </div>
     </div>
@@ -113,15 +103,16 @@ const Book = (props) => {
 
 const AddBook = () => {
   const dispatch = useDispatch();
-  const { books } = useSelector(
-    (store) => store.book,
+  const {books} = useSelector(
+    (store) => store.book
   );
-  const [title, setTitle] = useState('');
-  const [author, setAuthor] = useState('');
-  const [category, setCategory] = useState('');
+  const [title, setTitle] = useState("");
+  const [author, setAuthor] = useState("");
+  const [category, setCategory] = useState("");
 
+  const bookValues = Object.values(books);
   const newBook = {
-    item_id: `item${books.length + 1}`,
+    item_id: `item${bookValues.length + 1}`,
     title,
     author,
     category,
@@ -145,13 +136,17 @@ const AddBook = () => {
           type="text"
           value={author}
           placeholder="Author"
-          onChange={(e) => setAuthor(e.target.value)}
+          onChange={(e) =>
+            setAuthor(e.target.value)
+          }
         />
 
         <select
           className="category"
           value={category}
-          onChange={(e) => setCategory(e.target.value)}
+          onChange={(e) =>
+            setCategory(e.target.value)
+          }
         >
           <option>Category</option>
           <option>Fiction</option>
@@ -165,10 +160,10 @@ const AddBook = () => {
           id="addBook"
           type="button"
           onClick={() => {
-            dispatch(addBook(newBook));
-            setAuthor('');
-            setTitle('');
-            setCategory('Category');
+            dispatch(sendData(newBook));
+            setAuthor("");
+            setTitle("");
+            setCategory("Category");
           }}
         >
           ADD BOOK
@@ -179,25 +174,54 @@ const AddBook = () => {
 };
 
 const Home = () => {
-  const { books } = useSelector(
-    (store) => store.book,
-  );
-  return (
-    <div>
-      <Header />
-      {books.map((book) => (
-        <Book
-          key={book.item_id}
-          genre={book.category}
-          bookTitle={book.title}
-          author={book.author}
-          percent={'50'}
-          item_id={book.item_id}
-        />
-      ))}
-      <AddBook />
-    </div>
-  );
+  const {
+    books,
+    isFetching,
+    data,
+    error,
+    postStatus,
+  } = useSelector((store) => store.book);
+  const dispatch = useDispatch();
+
+  useEffect(() => {
+    dispatch(fetchData());
+  }, [dispatch]);
+
+  useEffect(() => {
+    if (postStatus === "Created") {
+      dispatch(fetchData());
+    }
+  }, [postStatus]);
+
+  if (isFetching) {
+    return (
+      <div className="loading"></div>
+    );
+  }
+
+  if (data) {
+    return (
+      <div>
+        <Header />
+        {Object.keys(books).map((book) => (
+          <Book
+            key={book}
+            genre={books[book][0].category}
+            bookTitle={books[book][0].title}
+            author={books[book][0].author}
+            chapter="Chapter 4"
+            percent={"50"}
+            item_id={book}
+          />
+        ))}
+        <AddBook />
+      </div>
+    );
+  }
+
+  if (error) {
+    <div>{error}</div>;
+  }
 };
 
 Book.propTypes = {

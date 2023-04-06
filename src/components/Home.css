@@ -57,7 +57,7 @@ a[href='/categories'] {
 .bookContainer {
   margin: 0.938rem 4.25rem;
   margin-top: 2.313rem;
-  background-color: #d4d4d4;
+  background-color: #eee;
   padding: 3rem 1.688rem 2rem 1.688rem;
   display: grid;
   grid-template-columns: repeat(3, 1fr);
@@ -99,6 +99,13 @@ a[href='/categories'] {
   margin-right: 1.063rem;
   border-right: 1px solid black;
   color: #167ff8;
+}
+
+.bookInteract {
+  border: none;
+  background-color: rgba(0, 0, 0, 0);
+  font-family: "Roboto Slab", sans-serif;
+  font-size: 1rem;
 }
 
 .bookInteract:last-child {
@@ -165,10 +172,6 @@ a[href='/categories'] {
   margin: 5px 0;
 }
 
-#updateButton:last-child {
-  background-color: rgb(255, 72, 0);
-}
-
 .addBook {
   margin: 2.5rem 4.25rem;
   padding: 1.813rem 0;
@@ -219,4 +222,22 @@ option {
   margin: 0 auto;
   font-family: "Roboto Slab", sans-serif;
   font-weight: bold;
+}
+
+.loading {
+  border: 8px solid #f3f3f3; /* Light grey */
+  border-top: 8px solid #3498db; /* Blue */
+  border-radius: 50%;
+  width: 60px;
+  height: 60px;
+  animation: spin 0.5s linear infinite;
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+}
+
+@keyframes spin {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
 }
