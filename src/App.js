@@ -1,26 +1,21 @@
 import {
-  createBrowserRouter,
-  createRoutesFromElements,
   Route,
-  RouterProvider,
+  BrowserRouter,
+  Routes,
 } from 'react-router-dom';
 import Home from './components/Home';
 import Categories from './components/Categories';
-import Books from './components/Books';
-
-const router = createBrowserRouter(
-  createRoutesFromElements(
-    <Route>
-      <Route index path="/" element={<Home />} />
-      <Route path="/books" element={<Books />} />
-      <Route path="/categories" element={<Categories />} />
-    </Route>,
-  ),
-);
 
 function App() {
   return (
-    <RouterProvider router={router} />
+    <BrowserRouter>
+      <Routes>
+        <Route index path="/" element={<Home />} />
+        <Route path="/books" element={<Home />} />
+        <Route path="/categories" element={<Categories />} />
+      </Routes>
+      ,
+    </BrowserRouter>
   );
 }
 

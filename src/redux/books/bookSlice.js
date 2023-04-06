@@ -1,43 +1,54 @@
-import { createSlice } from '@reduxjs/toolkit';
+import {
+  createSlice,
+} from '@reduxjs/toolkit';
 
 const initialState = {
   // Initial state:
-  books: [
-    {
-      item_id: 'item1',
-      title: 'The Great Gatsby',
-      author: 'John Smith',
-      category: 'Fiction',
-    },
-    {
-      item_id: 'item2',
-      title: 'Anna Karenina',
-      author: 'Leo Tolstoy',
-      category: 'Fiction',
-    },
-    {
-      item_id: 'item3',
-      title: 'The Selfish Gene',
-      author: 'Richard Dawkins',
-      category: 'Nonfiction',
-    },
-  ],
+  books: null,
+  isFetching: false,
+  data: null,
+  error: null,
+  postStatus: null,
 };
 
 const bookSlice = createSlice({
   name: 'book',
   initialState,
   reducers: {
+    fetchDataRequest: (state) => ({
+      ...state,
+      isFetching: true,
+      error: null,
+    }),
+    fetchDataSuccess: (state, action) => ({
+      ...state,
+      isFetching: false,
+      error: null,
+      data: action.payload,
+      books: action.payload,
+    }),
+    fetchDataError: (state, action) => ({
+      ...state,
+      isFetching: false,
+      error: action.payload,
+      data: null,
+
+    }),
+
+    postedReducer: (state, { payload }) => ({
+      ...state,
+      postStatus: payload.toString(),
+    }),
     addBook: (state, { payload }) => {
       /*eslint-disable */
-      const {item_id, title, author, category} =
+      const {item_id, author, title, category} =
         payload;
 
       return {
         ...state,
         books: [
           ...state.books,
-          {item_id, title, author, category},
+          {author, category, title},
         ],
       };
     },
@@ -59,5 +70,7 @@ const bookSlice = createSlice({
 });
 /* eslint-enable */
 
-export const { addBook, removeBook } = bookSlice.actions;
+export const {
+  fetchDataRequest, fetchDataSuccess, fetchDataError, postedReducer, addBook, removeBook,
+} = bookSlice.actions;
 export default bookSlice.reducer;
